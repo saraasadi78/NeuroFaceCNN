@@ -3,7 +3,8 @@ CNN-based deep learning framework for temporally preserved face classification f
 
 
 
-Key Features
+Key Features:
+
 Voxel-by-Time Transformation: Converts 4D fMRI scans into 2D matrices while preserving temporal information.
 
 Custom CNN Model: A compact yet effective 2D CNN designed for fMRI data with spatiotemporal structure.
