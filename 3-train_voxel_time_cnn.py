@@ -61,44 +61,44 @@ input_shape = X_train.shape[1:]
 model = Sequential()
 
 model.add(Conv2D(64, (7, 3), padding='same', kernel_regularizer=l2(0.001), input_shape=input_shape))
-model.add(LeakyReLU())
+model.add(LeakyReLU(alpha=0.1))
 model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 1)))
 
-model.add(Conv2D(32, (5, 3), padding='same', kernel_regularizer=l2(0.001)))
+model.add(Conv2D(32, (5, 3), padding='same', kernel_regularizer=l2(0.01)))
 model.add(LeakyReLU())
-model.add(BatchNormalization())
-model.add(MaxPooling2D((2, 1)))
+model.add(BatchNormalization(alpha=0.1))
+model.add(MaxPooling2D((2, 2)))
 model.add(Dropout(0.3))
 
-model.add(Conv2D(32, (3, 3), padding='same', kernel_regularizer=l2(0.001)))
-model.add(LeakyReLU())
+model.add(Conv2D(32, (3, 3), padding='same', kernel_regularizer=l2(0.01)))
+model.add(LeakyReLU(alpha=0.1))
 model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 2)))
 model.add(Dropout(0.3))
 
 model.add(Conv2D(32, (3, 3), padding='same', kernel_regularizer=l2(0.001)))
-model.add(LeakyReLU())
+model.add(LeakyReLU(alpha=0.1))
 model.add(BatchNormalization())
-model.add(MaxPooling2D((2, 2)))
+model.add(MaxPooling2D((2, 1)))
 model.add(Dropout(0.3))
 
 model.add(Flatten())
 
 model.add(Dense(128, kernel_regularizer=l2(0.001)))
-model.add(LeakyReLU())
+model.add(LeakyReLU(alpha=0.1))
 model.add(BatchNormalization())
 model.add(Dropout(0.3))
 
 model.add(Dense(64, kernel_regularizer=l2(0.001)))
-model.add(LeakyReLU())
+model.add(LeakyReLU(alpha=0.1))
 model.add(BatchNormalization())
 model.add(Dropout(0.3))
 
 model.add(Dense(1, activation='sigmoid'))
 
 
-optimizer = Adam(learning_rate=0.0001)
+optimizer = Adam(learning_rate=0.0002)
 
 model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accuracy'])
 
@@ -106,8 +106,8 @@ model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accurac
 history = model.fit(
     X_train, y_train,
     validation_split=0.2,
-    epochs=10,
-    batch_size=18,
+    epochs=200,
+    batch_size=20,
     class_weight=class_weights,
     verbose=1)
 
