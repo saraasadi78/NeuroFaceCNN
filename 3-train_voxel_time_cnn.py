@@ -6,14 +6,18 @@ import os
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import (Conv2D, MaxPooling2D, Dense, Dropout, BatchNormalization, Flatten, LeakyReLU)
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dense, Dropout, BatchNormalization, Flatten, LeakyReLU, Flatten
 from tensorflow.keras.regularizers import l2
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 from tensorflow.keras.optimizers import Adam
 from sklearn.utils import class_weight
+from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, LearningRateScheduler, Callback
 import pickle
 import matplotlib.pyplot as plt
+
+from tensorflow.keras.mixed_precision import set_global_policy
+set_global_policy('mixed_float16')
 
 #GPU Setup
 os.environ["TF_GPU_ALLOCATOR"] = "cuda_malloc_async"
@@ -45,32 +49,35 @@ print(f"X_data shape: {X_data.shape}, y_data shape: {y_data.shape}")
 
 #Train/Test Split
 X_train, X_test, y_train, y_test = train_test_split(X_data, y_data, test_size=0.2, stratify=y_data, random_state=42)
-class_weights = dict(enumerate(class_weight.compute_class_weight('balanced', classes=np.unique(y_train), y=y_train)))
-print("Class weights:", class_weights)
+
+
+class_weights = class_weight.compute_class_weight('balanced', classes=np.unique(y_train), y=y_train)
+class_weights = dict(enumerate(class_weights))
+
 
 #CNN Model
 input_shape = X_train.shape[1:]
 
 model = Sequential()
 
-model.add(Conv2D(64, (5, 5), padding='same', kernel_regularizer=l2(0.002), input_shape=input_shape))
+model.add(Conv2D(64, (7, 3), padding='same', kernel_regularizer=l2(0.001), input_shape=input_shape))
 model.add(LeakyReLU())
 model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 1)))
 
-model.add(Conv2D(32, (3, 3), padding='same', kernel_regularizer=l2(0.002)))
+model.add(Conv2D(32, (5, 3), padding='same', kernel_regularizer=l2(0.001)))
 model.add(LeakyReLU())
 model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 1)))
 model.add(Dropout(0.3))
 
-model.add(Conv2D(32, (3, 3), padding='same', kernel_regularizer=l2(0.002)))
+model.add(Conv2D(32, (3, 3), padding='same', kernel_regularizer=l2(0.001)))
 model.add(LeakyReLU())
 model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 2)))
 model.add(Dropout(0.3))
 
-model.add(Conv2D(32, (3, 3), padding='same', kernel_regularizer=l2(0.002)))
+model.add(Conv2D(32, (3, 3), padding='same', kernel_regularizer=l2(0.001)))
 model.add(LeakyReLU())
 model.add(BatchNormalization())
 model.add(MaxPooling2D((2, 2)))
@@ -78,12 +85,12 @@ model.add(Dropout(0.3))
 
 model.add(Flatten())
 
-model.add(Dense(128, kernel_regularizer=l2(0.002)))
+model.add(Dense(128, kernel_regularizer=l2(0.001)))
 model.add(LeakyReLU())
 model.add(BatchNormalization())
 model.add(Dropout(0.3))
 
-model.add(Dense(64, kernel_regularizer=l2(0.002)))
+model.add(Dense(64, kernel_regularizer=l2(0.001)))
 model.add(LeakyReLU())
 model.add(BatchNormalization())
 model.add(Dropout(0.3))
@@ -91,7 +98,7 @@ model.add(Dropout(0.3))
 model.add(Dense(1, activation='sigmoid'))
 
 
-optimizer = Adam(learning_rate=0.0002)
+optimizer = Adam(learning_rate=0.0001)
 
 model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accuracy'])
 
