@@ -10,19 +10,8 @@ This repository supports the manuscript:
 **Asadi, S. et al. (2025)** *Computationally Efficient Deep Learning for Temporally Preserved Face Classification in Naturalistic fMRI*
 
 
-Key Features:
 
-- Voxel-by-Time Transformation: Converts 4D fMRI scans into 2D matrices while preserving temporal information.
-
-- Custom CNN Model: A compact yet effective 2D CNN designed for fMRI data with spatiotemporal structure.
-
-- Integrated Gradients Analysis: Attribution maps generated using DeepExplain to identify voxel-level contributions.
-
-- Reconstruction in Brain Space: Neural attributions are mapped back to anatomical space and visualized with nilearn.
-
-
-
-Dataset
+## Dataset
 
 Source: Naturalistic Neuroimaging Database v2.0 (Aliko et al., 2020)
 
@@ -37,9 +26,9 @@ Labels: 3606 10-second segments labeled as "face" or "no-face"
 
 | File | Description |
 |------|-------------|
-| `1-preprocess_naturalistic_fmri.py` | Creates voxel-by-time matrices from raw 4D fMRI data |
+| `1-preprocess_naturalistic_fmri.py` | Creates voxel-by-time matrices from raw 4D fMRI data while preserving temporal information|
 | `2-load-data.py` | Loads and labels segmented fMRI samples |
-| `3-train_voxel_time_cnn.py` | Trains CNN model on voxel-by-time input |
+| `3-train_voxel_time_cnn.py` | Trains custom CNN model on voxel-by-time input |
 | `4-integrated_gradients.py` | Computes voxel-level IG attribution maps |
 | `5-revert-IG-tobrain.py` | Maps 2D IG attributions back to brain space |
 | `6-average_IG_per_subject.py` | Aggregates and averages IG maps by subject |
