@@ -4,14 +4,7 @@ This script preprocesses naturalistic fMRI data from the NNDb dataset:
 - Applies a 0.99 threshold to retain common brain voxels
 - Extracts 10-second fMRI segments where faces are present or absent
 - Applies the group mask to reduce dimensionality
-- Saves voxel-by-time matrices for deep learning
-
-Requirements:
-- FSL (for fslmaths)
-- nibabel, numpy, matplotlib, pandas
-- Directory structure from NNDb dataset (version 2.0)
-
-Author: Sara Asadi   Date: 2025 Jun
+- Saves voxel-by-time matrices for deep learning approaches
 """
 
 
