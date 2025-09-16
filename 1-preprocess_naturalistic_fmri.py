@@ -52,7 +52,7 @@ def create_group_mask(avg_mask_file):
     mask_data = data.get_fdata()
     mask_data = (mask_data > 0.99).astype(float)
     reshaped_mask = mask_data.reshape(-1)
-    indices = np.where(reshaped_mask > 0)
+    indices = np.where(reshaped_mask > 0.99)[0]  # 41,489 voxels (voxels present in >99% of participants)
     return reshaped_mask, indices
 
 
