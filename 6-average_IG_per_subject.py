@@ -7,7 +7,7 @@ import numpy as np
 label = "face"
 
 # Define input and output directories
-pickle_path = rf"E:\sara.asadi\IG-pre‐sigmoid-logit-backed-to-brain\{label}"
+input_path = rf"E:\sara.asadi\IG-pre‐sigmoid-logit-backed-to-brain\{label}"
 save_dir = rf"E:\sara.asadi\IG-pre‐sigmoid-logit-backed-to-brain-avged\{label}"
 
 # List of subject directories to process
@@ -15,7 +15,7 @@ subjects = [f"IG-reverted_{label}_sub{i}" for i in range(1, 87)]
 
 # Loop over all subjects
 for sub in subjects:
-    sub_dir = os.path.join(pickle_path, sub)
+    sub_dir = os.path.join(input_path, sub)
     nii_files = [os.path.join(sub_dir, file) for file in os.listdir(sub_dir) if file.endswith('.nii.gz')]
 
     if not nii_files:
