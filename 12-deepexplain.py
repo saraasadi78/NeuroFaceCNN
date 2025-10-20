@@ -37,7 +37,7 @@ K.set_learning_phase(0)  # inference mode (disable dropout/bn training)
 label = "face"
 
 root_dir = rf"D:\sarafiles\Face-Project\data-npy-seperately-for-deepexplain-one-by-one\{label}"
-save_root = rf"D:\sarafiles\Face-Project\chelsea\{label}"
+save_root = rf"D:\sarafiles\Face-Project\IG\{label}"
 os.makedirs(save_root, exist_ok=True)
 
 
